@@ -1,12 +1,14 @@
 use eframe::{egui, HardwareAcceleration, Theme};
-use egui::{Id, Sense, Vec2, Layout, RichText, Color32};
+use eframe::emath::Align;
+use egui::{Id, Sense, Vec2, RichText, Color32, Layout, FontId, Visuals};
+use egui::Order::Background;
 
 
 fn main() {
     let nativeoption=eframe::NativeOptions {
         always_on_top: false,
         maximized: false,
-        decorated: false,
+        decorated: true,
         fullscreen: false,
         drag_and_drop_support: true,
         icon_data: None,
@@ -22,7 +24,7 @@ fn main() {
         multisampling: 0,
         depth_buffer: 0,
         stencil_buffer: 0,
-        hardware_acceleration: HardwareAcceleration::Required,
+        hardware_acceleration: HardwareAcceleration::Off,
         renderer: Default::default(),
         follow_system_theme: false,
         default_theme: Theme::Dark,
@@ -59,6 +61,7 @@ impl eframe::App for Res {
 fn update(&mut self, ctx:&egui::Context, frame:&mut eframe::Frame) {
 
 egui::CentralPanel::default().show(ctx,|ui| {
+   
 
 egui::ScrollArea::vertical().show(ui,|ui| { 
 
@@ -66,10 +69,15 @@ if ui.interact(ui.max_rect(), Id::new("window-drag"),Sense::drag()).dragged(){
           frame.drag_window();
  }
 
-    ui.heading(RichText::new("resource monitor").color(Color32::RED));
+    ui.with_layout(Layout::top_down(Align::Center), |ui| {
+        ui.heading(RichText::new("Resource monitor").color(Color32::RED).font(FontId::monospace(28.5)));
+    });
 
 
     ui.separator();
+
+
+
 
 
 
