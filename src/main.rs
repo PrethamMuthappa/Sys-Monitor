@@ -1,7 +1,8 @@
+use std::thread::sleep;
 use eframe::{egui, HardwareAcceleration, Theme};
 use eframe::emath::Align;
-use egui::{Id, Sense, Vec2, RichText, Color32, Layout, FontId, Visuals};
-use egui::Order::Background;
+use egui::{Id, Sense, Vec2, RichText, Color32, Layout, FontId};
+
 
 
 fn main() {
@@ -13,7 +14,7 @@ fn main() {
         drag_and_drop_support: true,
         icon_data: None,
         initial_window_pos: None,
-        initial_window_size: Option::from(Vec2::new(800f32,500f32)),
+        initial_window_size: Option::from(Vec2::new(850f32,650f32)),
         min_window_size: None,
         max_window_size: None,
         resizable: true,
@@ -44,14 +45,18 @@ fn main() {
 }
 
 #[derive(Default)]
-struct Res {}
+struct Res {
+    name:String,
+}
 
 impl Res {
     fn new (_cc:&eframe::CreationContext<'_>) -> Self {
-   
-   Self::default()    
+
+   Self::default()
 
 }
+
+    fn data(&self) {}
 
 
 }
@@ -76,10 +81,18 @@ if ui.interact(ui.max_rect(), Id::new("window-drag"),Sense::drag()).dragged(){
 
     ui.separator();
 
+    ui.label(RichText::new("CPU").color(Color32::GREEN).font(FontId::monospace(20.0)));
+
+    if ui.button("click").clicked() {
+    self.name="pretham".to_string();
+    }
 
 
+    if ui.button("clear").clicked() {
+        self.name.clear();
+    }
 
-
+    ui.label(&self.name);
 
  });
  }); 
