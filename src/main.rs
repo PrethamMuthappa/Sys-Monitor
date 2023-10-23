@@ -2,6 +2,7 @@ use eframe::emath::Align;
 use eframe::{egui, HardwareAcceleration, Theme};
 use egui::{Color32, FontId, Id, Layout, RichText, Sense, Vec2};
 use egui_plot::{Line, Plot, PlotPoints};
+use std::collections::VecDeque;
 use std::thread;
 use std::time::Duration;
 use systemstat::{Platform, System};
@@ -84,17 +85,22 @@ impl eframe::App for Res {
 
                 let sys = System::new();
 
+                let mut live = VecDeque::new();
+
                 match sys.cpu_load_aggregate() {
                     Ok(cpu) => {
-                        println!("\n measuring cpu load");
                         thread::sleep(Duration::from_secs(1));
                         let cpu = cpu.done().unwrap();
-                        println!("{:?}", cpu.user);
+                        live.push_front(cpu.user);
+
+                        println!(" printing this from cpu {:?}", cpu.user);
+                        println!("values from vecdeque {:?}", live.clone());
                     }
                     Err(error) => println!("{:?}", error),
                 }
 
                 ui.separator();
+                ui.label(format!("{:?}", live));
 
                 let sin: PlotPoints = (0..10)
                     .map(|i| {
