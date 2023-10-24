@@ -12,4 +12,4 @@ The application is ment to monitor your systems resource such as cpu load, memor
 
  **IDE used**:- Helix with rust-analyzer LSP
  
- ![image](https://github.com/PrethamMuthappa/Sys-Monitor/assets/98420696/5668964b-47ef-441f-96ce-e5e4151a9b31)
+<img src="https://github.com/PrethamMuthappa/Sys-Monitor/assets/98420696/4a7f3db5-c8a4-431e-bdc7-ab33012372a5" alt="" height="500px" width="500px">
