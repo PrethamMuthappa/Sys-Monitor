@@ -96,7 +96,7 @@ impl eframe::App for Res {
 
                 ui.label(
                     RichText::new(format!("printing values from cpu load\t{:?}", live))
-                        .font(FontId::monospace(25.0)),
+                        .font(FontId::monospace(18.1)),
                 );
 
                 ui.separator();
@@ -111,11 +111,10 @@ impl eframe::App for Res {
                     Ok(mem) => {
                         ui.label(
                             RichText::new(format!(
-                                "\nmemory {} used/{} ({} bytes) total ({:?})",
+                                "\nmemory {} used/{} ({} bytes)",
                                 saturating_sub_bytes(mem.total, mem.free),
                                 mem.total,
                                 mem.total.as_u64(),
-                                mem.platform_memory
                             ))
                             .font(FontId {
                                 size: 18.1,
@@ -138,11 +137,10 @@ impl eframe::App for Res {
                     Ok(swap) => {
                         ui.label(
                             RichText::new(format!(
-                                "\n swap: {} used / {} ({} bytes) total ({:?})",
+                                "\n swap: {} used / {} ({} bytes)",
                                 saturating_sub_bytes(swap.total, swap.free),
                                 swap.total,
                                 swap.total.as_u64(),
-                                swap.platform_swap
                             ))
                             .font(FontId {
                                 size: 18.1,
@@ -188,7 +186,25 @@ impl eframe::App for Res {
 
                 match sys.uptime() {
                     Ok(up) => {
-                        ui.label(RichText::new(format!("\n uptime : {:?}", up)).font(FontId {
+                        ui.label(RichText::new(format!("uptime : {:?}", up)).font(FontId {
+                            size: 18.1,
+                            family: egui::FontFamily::Monospace,
+                        }));
+                    }
+                    Err(err) => println!("{:?}", err),
+                }
+
+                ui.separator();
+
+                ui.label(
+                    RichText::new("Boot-Time")
+                        .color(Color32::GREEN)
+                        .font(FontId::monospace(20.0)),
+                );
+
+                match sys.boot_time() {
+                    Ok(boot) => {
+                        ui.label(RichText::new(format!("Boot time: {}", boot)).font(FontId {
                             size: 18.1,
                             family: egui::FontFamily::Monospace,
                         }));
