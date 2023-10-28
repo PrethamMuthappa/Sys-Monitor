@@ -90,9 +90,6 @@ impl eframe::App for Res {
                         thread::sleep(Duration::from_secs(1));
                         let cpu = cpu.done().unwrap();
                         live.push_front(cpu.user);
-
-                        println!(" printing this from cpu {:?}", cpu.user * 100.0);
-                        // println!("values from vecdeque {:?}", live.clone());
                     }
                     Err(error) => println!("{:?}", error),
                 }
@@ -109,8 +106,6 @@ impl eframe::App for Res {
                         .color(Color32::GREEN)
                         .font(FontId::monospace(20.0)),
                 );
-
-                //let mut memveq = VecDeque::new();
 
                 match sys.memory() {
                     Ok(mem) => {
@@ -132,6 +127,32 @@ impl eframe::App for Res {
                 }
 
                 ui.separator();
+
+                ui.label(
+                    RichText::new("SWAP")
+                        .color(Color32::GREEN)
+                        .font(FontId::monospace(20.0)),
+                );
+
+                match sys.swap() {
+                    Ok(swap) => {
+                        ui.label(
+                            RichText::new(format!(
+                                "\n swap: {} used / {} ({} bytes) total ({:?})",
+                                saturating_sub_bytes(swap.total, swap.free),
+                                swap.total,
+                                swap.total.as_u64(),
+                                swap.platform_swap
+                            ))
+                            .font(FontId {
+                                size: 18.1,
+                                family: egui::FontFamily::Monospace,
+                            }),
+                        );
+                    }
+
+                    Err(err) => println!("{:?}", err),
+                }
             });
         });
     }
