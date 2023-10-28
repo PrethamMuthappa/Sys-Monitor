@@ -137,7 +137,7 @@ impl eframe::App for Res {
                     Ok(swap) => {
                         ui.label(
                             RichText::new(format!(
-                                "\n swap: {} used / {} ({} bytes)",
+                                "\nswap: {} used / {} ({} bytes)",
                                 saturating_sub_bytes(swap.total, swap.free),
                                 swap.total,
                                 swap.total.as_u64(),
@@ -164,7 +164,7 @@ impl eframe::App for Res {
                     Ok(avg) => {
                         ui.label(
                             RichText::new(format!(
-                                "\n load average {} {} {}",
+                                "\nload average {} {} {}",
                                 avg.one, avg.five, avg.fifteen
                             ))
                             .font(FontId {
@@ -186,7 +186,7 @@ impl eframe::App for Res {
 
                 match sys.uptime() {
                     Ok(up) => {
-                        ui.label(RichText::new(format!("uptime : {:?}", up)).font(FontId {
+                        ui.label(RichText::new(format!("\nuptime : {:?}", up)).font(FontId {
                             size: 18.1,
                             family: egui::FontFamily::Monospace,
                         }));
@@ -204,10 +204,34 @@ impl eframe::App for Res {
 
                 match sys.boot_time() {
                     Ok(boot) => {
-                        ui.label(RichText::new(format!("Boot time: {}", boot)).font(FontId {
-                            size: 18.1,
-                            family: egui::FontFamily::Monospace,
-                        }));
+                        ui.label(
+                            RichText::new(format!("\nBoot time: {}", boot)).font(FontId {
+                                size: 18.1,
+                                family: egui::FontFamily::Monospace,
+                            }),
+                        );
+                    }
+                    Err(err) => println!("{:?}", err),
+                }
+
+                ui.separator();
+
+                ui.label(
+                    RichText::new("CPU-TEMP")
+                        .color(Color32::GREEN)
+                        .font(FontId::monospace(20.0)),
+                );
+
+                match sys.socket_stats() {
+                    Ok(temp) => {
+                        ui.label(
+                            RichText::new(format!("\nsystem socket statistics: {:?}", temp)).font(
+                                FontId {
+                                    size: 18.1,
+                                    family: egui::FontFamily::Monospace,
+                                },
+                            ),
+                        );
                     }
                     Err(err) => println!("{:?}", err),
                 }
