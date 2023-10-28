@@ -177,6 +177,26 @@ impl eframe::App for Res {
                     }
                     Err(err) => println!("{:?}", err),
                 }
+
+                ui.separator();
+
+                ui.label(
+                    RichText::new("UP-TIME")
+                        .color(Color32::GREEN)
+                        .font(FontId::monospace(20.0)),
+                );
+
+                match sys.uptime() {
+                    Ok(up) => {
+                        ui.label(RichText::new(format!("\n uptime : {:?}", up)).font(FontId {
+                            size: 18.1,
+                            family: egui::FontFamily::Monospace,
+                        }));
+                    }
+                    Err(err) => println!("{:?}", err),
+                }
+
+                ui.separator();
             });
         });
     }
