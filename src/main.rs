@@ -153,6 +153,30 @@ impl eframe::App for Res {
 
                     Err(err) => println!("{:?}", err),
                 }
+
+                ui.separator();
+
+                ui.label(
+                    RichText::new("average load")
+                        .color(Color32::GREEN)
+                        .font(FontId::monospace(20.0)),
+                );
+
+                match sys.load_average() {
+                    Ok(avg) => {
+                        ui.label(
+                            RichText::new(format!(
+                                "\n load average {} {} {}",
+                                avg.one, avg.five, avg.fifteen
+                            ))
+                            .font(FontId {
+                                size: 18.1,
+                                family: egui::FontFamily::Monospace,
+                            }),
+                        );
+                    }
+                    Err(err) => println!("{:?}", err),
+                }
             });
         });
     }
