@@ -217,7 +217,7 @@ impl eframe::App for Res {
                 ui.separator();
 
                 ui.label(
-                    RichText::new("CPU-TEMP")
+                    RichText::new("SOCKET-STAT")
                         .color(Color32::GREEN)
                         .font(FontId::monospace(20.0)),
                 );
@@ -232,6 +232,24 @@ impl eframe::App for Res {
                                 },
                             ),
                         );
+                    }
+                    Err(err) => println!("{:?}", err),
+                }
+
+                ui.separator();
+
+                ui.label(
+                    RichText::new("POWER")
+                        .color(Color32::GREEN)
+                        .font(FontId::monospace(20.0)),
+                );
+
+                match sys.on_ac_power() {
+                    Ok(temp) => {
+                        ui.label(RichText::new(format!("\nAC power :{}", temp)).font(FontId {
+                            size: 18.1,
+                            family: egui::FontFamily::Monospace,
+                        }));
                     }
                     Err(err) => println!("{:?}", err),
                 }
