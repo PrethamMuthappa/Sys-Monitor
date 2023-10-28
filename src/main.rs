@@ -1,12 +1,10 @@
 use eframe::emath::Align;
 use eframe::{egui, HardwareAcceleration, Theme};
 use egui::{Color32, FontId, Id, Layout, RichText, Sense, Vec2};
-use egui_plot::{Line, Plot, PlotPoints};
 use std::collections::VecDeque;
 use std::thread;
 use std::time::Duration;
-use systemstat::{Platform, System};
-
+use systemstat::{saturating_sub_bytes, Platform, System};
 fn main() {
     let nativeoption = eframe::NativeOptions {
         always_on_top: false,
@@ -93,26 +91,47 @@ impl eframe::App for Res {
                         let cpu = cpu.done().unwrap();
                         live.push_front(cpu.user);
 
-                        println!(" printing this from cpu {:?}", cpu.user);
-                        println!("values from vecdeque {:?}", live.clone());
+                        println!(" printing this from cpu {:?}", cpu.user * 100.0);
+                        // println!("values from vecdeque {:?}", live.clone());
                     }
                     Err(error) => println!("{:?}", error),
                 }
 
+                ui.label(
+                    RichText::new(format!("printing values from cpu load\t{:?}", live))
+                        .font(FontId::monospace(25.0)),
+                );
+
                 ui.separator();
-                ui.label(format!("{:?}", live));
 
-                let sin: PlotPoints = (0..10)
-                    .map(|i| {
-                        let x = i as f64 * 0.01;
-                        [x, x.sin()]
-                    })
-                    .collect();
+                ui.label(
+                    RichText::new("MEMORY")
+                        .color(Color32::GREEN)
+                        .font(FontId::monospace(20.0)),
+                );
 
-                let line = Line::new(sin);
-                Plot::new("my plot")
-                    .view_aspect(2.0)
-                    .show(ui, |plot_ui| plot_ui.line(line));
+                //let mut memveq = VecDeque::new();
+
+                match sys.memory() {
+                    Ok(mem) => {
+                        ui.label(
+                            RichText::new(format!(
+                                "\nmemory {} used/{} ({} bytes) total ({:?})",
+                                saturating_sub_bytes(mem.total, mem.free),
+                                mem.total,
+                                mem.total.as_u64(),
+                                mem.platform_memory
+                            ))
+                            .font(FontId {
+                                size: 18.1,
+                                family: egui::FontFamily::Monospace,
+                            }),
+                        );
+                    }
+                    Err(err) => println!("{:?}", err),
+                }
+
+                ui.separator();
             });
         });
     }
