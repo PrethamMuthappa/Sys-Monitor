@@ -155,7 +155,7 @@ impl eframe::App for Res {
                 ui.separator();
 
                 ui.label(
-                    RichText::new("average load")
+                    RichText::new("AVERAGE_LOAD")
                         .color(Color32::GREEN)
                         .font(FontId::monospace(20.0)),
                 );
