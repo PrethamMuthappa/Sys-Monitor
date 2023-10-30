@@ -21,9 +21,10 @@ The application is meant to monitor your systems resource such as cpu load, memo
 
 ---
 ### Requirments and Installation 
+
 you need rust and cargo installed  
 
-`git clone "url" ` <br>
+`git clone https://github.com/PrethamMuthappa/Sys-Monitor.git ` <br>
 `cd sys-Monitor` <br>
 `cargo run `
   
