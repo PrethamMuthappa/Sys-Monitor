@@ -255,6 +255,15 @@ impl eframe::App for Res {
                 }
 
                 ui.separator();
+
+                ui.with_layout(Layout::top_down(Align::Center), |ui| {
+                    ui.heading(
+                        RichText::new("@pretham-muthappa")
+                            .color(Color32::WHITE)
+                            .font(FontId::monospace(12.5)),
+                    );
+                });
+
             });
         });
     }
