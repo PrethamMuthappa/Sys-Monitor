@@ -9,6 +9,4 @@ edition = "2021"
 
 egui = "0.23.0"
 eframe = "0.23.0"
-webbrowser = "0.8.11"
-egui_plot = "0.23.0"
 systemstat = "0.2.3"
