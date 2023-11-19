@@ -2,7 +2,7 @@
 
 
 **Sys-Monitor** is a resource monitor application created using Rust and egui library
-The application is meant to monitor your systems resource such as cpu load, memory, networks, storage etc, the application is still in early development and is sometimes unstable
+The application is meant to monitor your systems resource such as cpu load, memory, networks, storage etc, the application is sometimes unstable and unoptimized , contribution to this repo is appreciated
 ##### Languages and library
 - Rust
 - egui
